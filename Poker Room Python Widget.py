@@ -193,6 +193,7 @@ def ScrambleChips():
     total = 0
     expectedTotal = 306
     progress_bar.setRange(1, expectedTotal)
+    progress_bar.setFormat(f"Scrambling: {0}%")    
 
     total += ScrambleRedChips()
 
@@ -284,9 +285,9 @@ def UnscrambleChips():
 def UpdateProgress(progressValue, expectedTotal, reset = False):
     progress_bar.setValue(progressValue)
     if (reset):
-        progress_bar.setFormat(f"Scrambling: {round((progressValue / expectedTotal) * 100)}%")    
-    else:
         progress_bar.setFormat(f"Unscrambling: {round((progressValue / expectedTotal) * 100)}%")    
+    else:
+        progress_bar.setFormat(f"Scrambling: {round((progressValue / expectedTotal) * 100)}%")    
     progress_bar.update()
 
 window = RLPy.RUi.CreateRDockWidget()
