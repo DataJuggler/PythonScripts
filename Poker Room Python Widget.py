@@ -14,7 +14,7 @@ def RotateChip(chipName, reset = False):
     rotationValue = 0
 
     if (reset):
-        # create a random value #
+        # set to 0 for reset #
         rotationValue = 0        
     else:
         # create a random value #
@@ -203,7 +203,7 @@ def ScrambleChips():
 
     # Update the progress bar #
     UpdateProgress(total, expectedTotal)
-
+        
     total += ScramblePurpleChips()
 
     # Update the progress bar #
