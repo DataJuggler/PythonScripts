@@ -291,7 +291,7 @@ def Refresh():
     RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(FrameTime))
     RLPy.RGlobal.Stop()
     result = RLPy.RGlobal.SetTime(RLPy.RTime(FrameTime))
-    print (frameTime)
+    
     result2 = "Set Time Result: "+ result
     print(result2) # Success or fail
 
