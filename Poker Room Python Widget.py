@@ -18,11 +18,11 @@ def RotateChip(chipName, reset = False):
         rotationValue = 0        
     else:
         # create a random value #
-        rotationValue = random.randint(101771, 124193) % 59 - 29
+        rotationValue = random.randint(101771, 124193) % 89 - 45
         print(rotationValue)        
 
     #-- Set Rotation Z = by a random amount
-    ts_data_block.SetData("Rotation/RotationZ", RLPy.RTime(0), RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
+    ts_data_block.SetData("Rotation/RotationZ", FrameTime, RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
     
 def ScrambleRedChips(reset = False):
     
@@ -189,11 +189,15 @@ def ScrambleGreenChips(reset = False):
 
 def ScrambleChips():
 
+    FrameTime = RLPy.RGlobal.GetTime()
     text_edit.clear()
+    text_edit.update()
     total = 0
     expectedTotal = 306
     progress_bar.setRange(1, expectedTotal)
-    progress_bar.setFormat(f"Scrambling: {0}%")    
+    # This isn't really 26%, but for some reason the first time it refreshes again this is always behind. #
+    progress_bar.setFormat(f"Scrambling: {26}%")
+    progress_bar.update()
 
     total += ScrambleRedChips()
 
@@ -225,62 +229,71 @@ def ScrambleChips():
     # Update the progress bar #
     UpdateProgress(total, expectedTotal)
    
-    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, "Chip Rack")
-   
+    # Final Message #
     progress_bar.setFormat(f"{total} chips scrambled.")
-    fps = RLPy.RGlobal.GetFps()
-    delta_time = 1 / fps  # Time in seconds for each frame    
-    current_time = RLPy.RGlobal.GetTime()
-    current_frame = RLPy.RTime.GetFrameIndex(current_time, fps)  # Position of the playhead        
-    RLPy.RGlobal.Play(RLPy.RTime(current_time), RLPy.RTime(delta_time))
-    RLPy.RGlobal.Stop()
+    progress_bar.update()
+
+    # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
+    Refresh()
 
 def UnscrambleChips():
 
+    FrameTime = RLPy.RGlobal.GetTime()
     text_edit.clear()
+    text_edit.update()
     total = 0
     expectedTotal = 306
     progress_bar.setRange(1, expectedTotal)
+    # This isn't really 26%, but for some reason the first time it refreshes again this is always behind. #
+    progress_bar.setFormat(f"Unscrambling: {26}%")
+    progress_bar.update()
 
     total += ScrambleRedChips(True)
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
 
     total += ScrambleBlackChips(True)
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
 
     total += ScramblePurpleChips(True)
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
 
     total += ScrambleGoldChips(True)
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
 
     total += ScrambleGreenChips(True)        
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
 
     total += ScrambleWhiteChips(True)
 
     # Update the progress bar #
-    UpdateProgress(total, expectedTotal)
+    UpdateProgress(total, expectedTotal, True)
    
-    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, "Chip Rack")
-   
+    # Final Message #
     progress_bar.setFormat(f"{total} chips unscrambled.")
-    fps = RLPy.RGlobal.GetFps()
-    delta_time = 1 / fps  # Time in seconds for each frame    
-    current_time = RLPy.RGlobal.GetTime()
-    current_frame = RLPy.RTime.GetFrameIndex(current_time, fps)  # Position of the playhead        
-    RLPy.RGlobal.Play(RLPy.RTime(current_time), RLPy.RTime(delta_time))
+    progress_bar.update()
+    
+    # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
+    Refresh()
+    
+def Refresh():
+    
+    # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
+    RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(FrameTime))
     RLPy.RGlobal.Stop()
+    result = RLPy.RGlobal.SetTime(RLPy.RTime(FrameTime))
+    print (frameTime)
+    result2 = "Set Time Result: "+ result
+    print(result2) # Success or fail
 
 def UpdateProgress(progressValue, expectedTotal, reset = False):
     progress_bar.setValue(progressValue)
@@ -290,6 +303,7 @@ def UpdateProgress(progressValue, expectedTotal, reset = False):
         progress_bar.setFormat(f"Scrambling: {round((progressValue / expectedTotal) * 100)}%")    
     progress_bar.update()
 
+FrameTime = RLPy.RGlobal.GetTime()
 window = RLPy.RUi.CreateRDockWidget()
 window.SetWindowTitle("Poker Room Python Widget")
 
