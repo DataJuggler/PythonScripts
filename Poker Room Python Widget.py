@@ -1,5 +1,6 @@
 import RLPy
 import random
+import time
 from PySide2 import QtWidgets
 from PySide2.shiboken2 import wrapInstance
 
@@ -234,7 +235,7 @@ def ScrambleChips():
     progress_bar.update()
 
     # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
-    Refresh()
+    Refresh2()
 
 def UnscrambleChips():
 
@@ -283,17 +284,15 @@ def UnscrambleChips():
     progress_bar.update()
     
     # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
-    Refresh()
+    Refresh2()
     
-def Refresh():
+def Refresh2():
     
     # Refresh Code Hack That Seemed to Work. Waiting For Better Way Answer. #
     RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(FrameTime))
     RLPy.RGlobal.Stop()
     result = RLPy.RGlobal.SetTime(RLPy.RTime(FrameTime))
-    
-    result2 = "Set Time Result: "+ result
-    print(result2) # Success or fail
+    print(result) # Success or fail
 
 def UpdateProgress(progressValue, expectedTotal, reset = False):
     progress_bar.setValue(progressValue)
@@ -302,6 +301,90 @@ def UpdateProgress(progressValue, expectedTotal, reset = False):
     else:
         progress_bar.setFormat(f"Scrambling: {round((progressValue / expectedTotal) * 100)}%")    
     progress_bar.update()
+
+def OpenShuffleMachine():
+    
+    # Get the current frame #
+    frameTime = RLPy.RGlobal.GetTime()
+
+    # Turn the glow light on first #
+    propName = "Green Light Glow"
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)
+    # Turn the glow light off first  #
+    propName = "Green Light Glow"
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)    
+    ret = prop.SetVisible(RLPy.RTime(FrameTime + 1999), True)
+
+    # Lid #
+    propName = "Lid"
+    #-- Loop through props --#prop
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)
+    #-- Get Transform Control and Data --#
+    ts_control = prop.GetControl("Transform")
+    ts_data_block = ts_control.GetDataBlock()
+    rotationValue = -104
+    
+    lidFinishOpenTime = frameTime + 4999
+
+    #-- Set Rotation Z To -104 which is a little more than 90 degrees open so the dealers hands doesn't get in the way picking up cards #
+    ts_data_block.SetData("Rotation/RotationX", RLPy.RTime(lidFinishOpenTime), RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
+
+    # Left Deck Holder #
+    propName = "Left Deck Holder"
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)
+
+    #-- Get Transform Control and Data --#
+    ts_control = prop.GetControl("Transform")
+    ts_data_block = ts_control.GetDataBlock()
+    leftColumnUp = 6    
+    leftColumnUpTime = FrameTime + 6999
+
+    #-- Set Potation Z To -104 which is a little more than 90 degrees open so the dealers hands doesn't get in the way picking up cards #    
+    ts_data_block.SetData("Position/PositionZ", RLPy.RTime(leftColumnUpTime), RLPy.RVariant(leftColumnUp))
+
+    RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(leftColumnUpTime))
+
+def CloseShuffleMachine():
+    
+    # Get the current frame #
+    frameTime = RLPy.RGlobal.GetTime()
+
+    # Turn the glow light off first  #
+    propName = "Green Light Glow"
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)    
+    ret = prop.SetVisible(RLPy.RTime(FrameTime + 1999), False)
+    
+    # Left Deck Holder #
+    propName = "Left Deck Holder"
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)
+
+    #-- Get Transform Control and Data --#
+    ts_control = prop.GetControl("Transform")
+    ts_data_block = ts_control.GetDataBlock()
+    leftColumnDown = 2
+    leftColumnDownTime = FrameTime + 4999
+
+    #-- Set Potation Z To -104 which is a little more than 90 degrees open so the dealers hands doesn't get in the way picking up cards #    
+    ts_data_block.SetData("Position/PositionZ", leftColumnDownTime, RLPy.RVariant(leftColumnDown))
+
+    # Lid #
+    propName = "Lid"
+    #-- Loop through props --#prop
+    prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)
+    #-- Get Transform Control and Data --#
+    ts_control = prop.GetControl("Transform")
+    ts_data_block = ts_control.GetDataBlock()
+    rotationValue = 0
+    
+    # The lid needs to close a little after the Left Deck Holder #
+    lidFinishCloseTime = frameTime + 5999
+
+    #-- Set Rotation Z To 0  #
+    ts_data_block.SetData("Rotation/RotationX", lidFinishCloseTime, RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
+
+    print ("Left Deck Holder Down, Lid Closed")
+
+    RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(lidFinishCloseTime))
 
 FrameTime = RLPy.RGlobal.GetTime()
 window = RLPy.RUi.CreateRDockWidget()
@@ -323,12 +406,19 @@ progress_bar = QtWidgets.QProgressBar()
 
 text_edit = QtWidgets.QTextEdit(readOnly=True)
 
+# Chip Buttons #
 ScrambleButton = QtWidgets.QPushButton("Scramble Chips")
 ScrambleButton.clicked.connect(ScrambleChips)
 UnscrambleButton = QtWidgets.QPushButton("Unscramble Chips")
 UnscrambleButton.clicked.connect(UnscrambleChips)
 
-for widget in [progress_bar, text_edit, ScrambleButton, UnscrambleButton]:
+# Shuffle Machine Buttons #
+OpenShuffleMachineButton = QtWidgets.QPushButton("Open Shuffle Machine")
+OpenShuffleMachineButton.clicked.connect(OpenShuffleMachine)
+CloseShuffleMachineButton = QtWidgets.QPushButton("Close Shuffle Machine")
+CloseShuffleMachineButton.clicked.connect(CloseShuffleMachine)
+
+for widget in [progress_bar, text_edit, ScrambleButton, UnscrambleButton, OpenShuffleMachineButton, CloseShuffleMachineButton]:
     layout.addWidget(widget)
 
 window.Show()
