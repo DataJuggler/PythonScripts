@@ -313,7 +313,7 @@ def OpenShuffleMachine():
     # Turn the glow light off first  #
     propName = "Green Light Glow"
     prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)    
-    ret = prop.SetVisible(RLPy.RTime(FrameTime + 1999), True)
+    ret = prop.SetVisible(RLPy.RTime(frameTime + 1999), True)
 
     # Lid #
     propName = "Lid"
@@ -337,12 +337,12 @@ def OpenShuffleMachine():
     ts_control = prop.GetControl("Transform")
     ts_data_block = ts_control.GetDataBlock()
     leftColumnUp = 6    
-    leftColumnUpTime = FrameTime + 6999
+    leftColumnUpTime = frameTime + 6999
 
     #-- Set Potation Z To -104 which is a little more than 90 degrees open so the dealers hands doesn't get in the way picking up cards #    
     ts_data_block.SetData("Position/PositionZ", RLPy.RTime(leftColumnUpTime), RLPy.RVariant(leftColumnUp))
 
-    RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(leftColumnUpTime))
+    RLPy.RGlobal.Play(frameTime, leftColumnUpTime)
 
 def CloseShuffleMachine():
     
@@ -352,7 +352,7 @@ def CloseShuffleMachine():
     # Turn the glow light off first  #
     propName = "Green Light Glow"
     prop = RLPy.RScene.FindObject(RLPy.EObjectType_Prop, propName)    
-    ret = prop.SetVisible(RLPy.RTime(FrameTime + 1999), False)
+    ret = prop.SetVisible(RLPy.RTime(frameTime + 999), False)
     
     # Left Deck Holder #
     propName = "Left Deck Holder"
@@ -362,7 +362,7 @@ def CloseShuffleMachine():
     ts_control = prop.GetControl("Transform")
     ts_data_block = ts_control.GetDataBlock()
     leftColumnDown = 2
-    leftColumnDownTime = FrameTime + 4999
+    leftColumnDownTime = frameTime + 4999
 
     #-- Set Potation Z To -104 which is a little more than 90 degrees open so the dealers hands doesn't get in the way picking up cards #    
     ts_data_block.SetData("Position/PositionZ", leftColumnDownTime, RLPy.RVariant(leftColumnDown))
@@ -382,9 +382,7 @@ def CloseShuffleMachine():
     #-- Set Rotation Z To 0  #
     ts_data_block.SetData("Rotation/RotationX", lidFinishCloseTime, RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
 
-    print ("Left Deck Holder Down, Lid Closed")
-
-    RLPy.RGlobal.Play(RLPy.RTime(FrameTime), RLPy.RTime(lidFinishCloseTime))
+    RLPy.RGlobal.Play(frameTime, lidFinishCloseTime)
 
 FrameTime = RLPy.RGlobal.GetTime()
 window = RLPy.RUi.CreateRDockWidget()
