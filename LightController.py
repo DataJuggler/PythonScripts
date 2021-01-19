@@ -5,8 +5,10 @@ from PySide2.shiboken2 import wrapInstance
 
 def TurnOnLights():
     text_edit.clear()
+
     
     text_edit.insertPlainText("Turning On All Spot Lights..." + "\r\n")
+
     ActivatedCount = 0
     lightName = "Spot Light"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_SpotLight,  lightName)
@@ -149,6 +151,7 @@ def TurnOffLights():
     text_edit.clear()
     
     text_edit.insertPlainText("Turning Off All Spot Lights..." + "\r\n")
+
     DeativatedCount = 0
     lightName = "Spot Light"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_SpotLight,  lightName)
