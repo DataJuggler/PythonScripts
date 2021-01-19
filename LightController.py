@@ -316,7 +316,7 @@ TurnOnButton.clicked.connect(TurnOnLights)
 TurnOffButton = QtWidgets.QPushButton("Turn Off All Lights")
 TurnOffButton.clicked.connect(TurnOffLights)
 
-for widget in [progress_bar, text_edit, TurnOnButton, TurnOffButton]:
+for widget in [text_edit, TurnOnButton, TurnOffButton]:
     main_widget_layout.addWidget(widget)
 
 
