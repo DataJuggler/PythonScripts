@@ -304,11 +304,7 @@ dock.setWidget(main_widget)
 main_widget_layout = QtWidgets.QVBoxLayout()
 main_widget.setLayout(main_widget_layout)
 
-combo_box = QtWidgets.QComboBox()
-
-main_widget_layout.addWidget(combo_box)
-
-progress_bar = QtWidgets.QProgressBar()
+# progress_bar = QtWidgets.QProgressBar()
 
 text_edit = QtWidgets.QTextEdit(readOnly=True)
 
