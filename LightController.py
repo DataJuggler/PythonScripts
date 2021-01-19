@@ -39,7 +39,7 @@ def TurnOnLights():
 
     text_edit.insertPlainText("Turning On All Point Lights..." + "\r\n")
     
-    lightName = "Point Light"
+    lightName = "Point light"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_PointLight,  lightName)
 
     # Iterate All Props
@@ -48,7 +48,7 @@ def TurnOnLights():
         light.SetActive(True)
         ActivatedCount += 1
 
-    lightName = "Point Light(0)"
+    lightName = "Point light(0)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_PointLight,  lightName)
 
     # Iterate All Props
@@ -57,7 +57,7 @@ def TurnOnLights():
         light.SetActive(True)
         ActivatedCount += 1
 
-    lightName = "Point Light(1)"
+    lightName = "Point light(1)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_PointLight,  lightName)
 
     # Iterate All Props
@@ -66,7 +66,7 @@ def TurnOnLights():
         light.SetActive(True)
         ActivatedCount += 1
 
-    lightName = "Point Light(2)"
+    lightName = "Point light(2)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_PointLight,  lightName)
 
     # Iterate All Props
@@ -75,7 +75,7 @@ def TurnOnLights():
         light.SetActive(True)
         ActivatedCount += 1
 
-    lightName = "Point Light(3)"
+    lightName = "Point light(3)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_PointLight,  lightName)
 
     # Iterate All Props
@@ -181,8 +181,8 @@ def TurnOffLights():
     DeativatedCount = 0
 
     text_edit.insertPlainText("Turning Off All Point Lights..." + "\r\n")
-    
-    lightName = "Point Light"
+
+    lightName = "Point light"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Light,  lightName)
 
     # Iterate All Props
@@ -191,7 +191,7 @@ def TurnOffLights():
         light.SetActive(False)
         DeativatedCount += 1
 
-    lightName = "Point Light(0)"
+    lightName = "Point light(0)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Light,  lightName)
 
     # Iterate All Props
@@ -200,7 +200,7 @@ def TurnOffLights():
         light.SetActive(False)
         DeativatedCount += 1
 
-    lightName = "Point Light(1)"
+    lightName = "Point light(1)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Light,  lightName)
 
     # Iterate All Props
@@ -209,7 +209,7 @@ def TurnOffLights():
         light.SetActive(False)
         DeativatedCount += 1
 
-    lightName = "Point Light(2)"
+    lightName = "Point light(2)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Light,  lightName)
 
     # Iterate All Props
@@ -218,7 +218,7 @@ def TurnOffLights():
         light.SetActive(False)
         DeativatedCount += 1
 
-    lightName = "Point Light(3)"
+    lightName = "Point light(3)"
     all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Light,  lightName)
 
     # Iterate All Props
