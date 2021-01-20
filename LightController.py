@@ -88,65 +88,6 @@ def TurnOnLights():
 
     text_edit.insertPlainText("Activated " + str(ActivatedCount) + " Point Lights." + "\r\n")
 
-      # Reset #
-    ActivatedCount = 0
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp2"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp3"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp4"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp5"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp6"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Show(light)
-        ActivatedCount += 1
-
-    text_edit.insertPlainText("Showed " + str(ActivatedCount) + " Fluorescent lamps." + "\r\n")
-
 def TurnOffLights():
     text_edit.clear()
     
@@ -234,62 +175,6 @@ def TurnOffLights():
 
     # Reset #
     DeativatedCount = 0
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp2"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp3"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp4"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp5"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    # now showing the Fluorescent lamps
-    lightName = "Fluorescent lamp6"
-    all_lights = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop, lightName)
-    # Iterate All Props
-    for i in range(len(all_lights)):
-        light = all_lights[i]
-        RLPy.RScene.Hide(light)
-        DeativatedCount += 1
-
-    text_edit.insertPlainText("Hid " + str(DeativatedCount) + " Fluorescent lamps." + "\r\n")
 
 # Create an iClone Dock Widget
 dockable_window = RLPy.RUi.CreateRDockWidget()
