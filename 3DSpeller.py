@@ -128,6 +128,10 @@ def SpellWords():
 
             # if scale is true
             if (scale):
+                # safeguard
+                if (scaleValue < .5):
+                    scaleValue = .5
+
                 # this prop must be scaled
                 ts_data_block.SetData("Scale/ScaleX", RLPy.RTime(0), RLPy.RVariant(scaleValue))
                 ts_data_block.SetData("Scale/ScaleY", RLPy.RTime(0), RLPy.RVariant(scaleValue))
@@ -200,8 +204,8 @@ text_edit2 = QtWidgets.QTextEdit(readOnly=False)
 # scale
 scaleLabel = QtWidgets.QLabel("Scale")
 scaleSlider = QtWidgets.QSlider(orientation=Qt.Horizontal)
-scaleSlider.setRange(.1, 10)
-scaleSlider.setSingleStep(1)
+scaleSlider.setRange(.5, 10)
+scaleSlider.setSingleStep(.1)
 scaleSlider.setValue(1)
 
 applyMaterialCheckBox = QtWidgets.QCheckBox("Browse For Material")
