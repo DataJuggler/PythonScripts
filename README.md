@@ -4,23 +4,27 @@ This project contains my ventures in Python for IClone. Please use at your own r
 I am always open to a better way.
 
 Update 2.5.2021: 3D Text Speller
-3DSpeller.py    - I do not understand how to publish, so I am giving this away free, so I don't spend any more time trying to make $1.
+3DSpeller.py    - I do not understand how to publish to the Reallusion Marketplace, so I am giving this away free, so I don't spend any more time trying to make $1.
 If you find it useful and want to send me a $1 to help feed my dog, it is always appreciated, but not required. Contact me for how.
 
-the 3D Speller now has a Scale and a Glow, and the spacing is better.
-The spacing after a comma is a known issue and on my to-do list, but fixing problems that only save 2 seconds tend to get very low priority so it might take me 30 minutes or 7 years.
+the 3D Speller now has a Scale and an option to apply the texture to the glow channel also plus a strength slider. The spacing is also better, but still far from perfect.
+The spacing after a comma is a known issue and on my to-do list, but fixing problems that only save a few seconds tend to get very low priority so it might take me 30 minutes or 7 years.
 
 The glow works best usually with not too much glow or it "burns" the image sometimes if that is the right term.
 
-I have a new video uploading as we speek, so in an hour or so it will be live: https://youtu.be/CljjctTXnGU
+Here is a video demonstrating how to use it: 
+https://youtu.be/CljjctTXnGU
 
 Please like and subscribe if you think it is worth the price of free.
 
 If I owe you money after you download and try it, I offer triple your money back, plus a small $1.50 restocking fee.
 
-Let me know if you what you think of the speller.
+Let me know if you what you think of the 3D Speller.
 
 Poker Room
+
+Edit 2.25.2021: The Poker Room is coming. I got distracted on shoes, than a 3D Speller, but I am building characters for the Poker Room this weekend.
+I would like to have the dealer simulate cards, but that might be a ways off.
 
 The two scripts Scramble and Unscramble will be deleted, but here is a video using them.
 https://youtu.be/QytGglxRNLg
