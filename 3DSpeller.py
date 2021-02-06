@@ -85,9 +85,6 @@ def SpellWords():
                 propName = "3D_Misc_At"
                 fileName = ic_template_path + "//iClone Template//Props//3D_Misc_At.iprop"
                 offSet -= .8
-            elif (character == "@"):
-                propName = "3D_Misc_At"
-                fileName = ic_template_path + "//iClone Template//Props//3D_Misc_At.iprop"
             elif (character == ","):
                 propName = "3D_Misc_Comma"
                 fileName = ic_template_path + "//iClone Template//Props//3D_Misc_Comma.iprop"
