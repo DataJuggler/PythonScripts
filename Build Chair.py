@@ -183,7 +183,7 @@ def CreateChair():
     moveY = 1.6
     moveZ = 0
     scaleX = .244
-    scaleY = .920
+    scaleY = .94
     scaleZ = .753
 
     # position and scale the backRail
@@ -254,6 +254,17 @@ def CreateChair():
     chairLeftArm.SetParent(chair)
     chairRightArm.SetParent(chair)
     chairSeat.SetParent(chair)
+
+    # now move the chair
+    moveX = -2.152
+    moveY = 1.6
+    moveZ = 14.2
+    scaleX = .244
+    scaleY = .92
+    scaleZ = .753
+
+    # position and scale the backRail
+    PositionAndScaleProp(chair, scaleX, scaleY, scaleZ, moveX, moveY, moveZ)
 
     # show a message chair created
     text_edit.insertPlainText("Chair created." + "\r\n")
