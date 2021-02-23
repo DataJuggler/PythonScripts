@@ -202,7 +202,7 @@ def CreateChair():
     RotateProp(chairLeftArm, rotateX, rotateY, rotateZ)
 
     # now scale and position chairLeftArm
-    moveX = -34.876
+    moveX = -36
     moveY = 59.023
     moveZ = 0
     scaleX = .172
@@ -268,6 +268,9 @@ def CreateChair():
 
     # show a message chair created
     text_edit.insertPlainText("Chair created." + "\r\n")
+
+
+
 
 # Create an iClone Dock Widget
 dockable_window = RLPy.RUi.CreateRDockWidget()
