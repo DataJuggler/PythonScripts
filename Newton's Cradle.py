@@ -96,19 +96,13 @@ def RotateSpheres():
         # Rotate Cylinder 5 to open and back to close
         currentTime = RotateSphere(cylinder5Control, cylinder5DataBlock, currentTime, cylinderDefault,  cylinder5Open)
 
-        # increment the value for loop
-        loop += 1
-
         if (currentTime > endTime):
 
-            # exit loop
+            # exit while loop
             break
 
         # Rotate Cylinder 5 to open and back to close
         currentTime = RotateSphere(cylinder1Control, cylinder1DataBlock, currentTime, cylinderDefault,  cylinder1Open)
-
-        # increment the value for loop
-        loop += 1
 
     #   message
     message = "Your Newtown's Cradle is ready." + "\r\n"
