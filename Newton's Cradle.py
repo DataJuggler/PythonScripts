@@ -18,6 +18,9 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     # Setup the frame after the last end time
     startTime = lastEndTime
 
+    # make it faster by lowering this number or slower by increasing it
+    speed = 540
+
     ##-- Set Rotation Z
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(startTime), RLPy.RVariant(startRotation * RLPy.RMath.CONST_DEG_TO_RAD))
 
@@ -25,7 +28,7 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     #ChangeTransitionType(control, startTime)
 
     # now set the endTime
-    endTime = startTime + 540
+    endTime = startTime + speed
 
     ##-- Set Rotation Z
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(endTime), RLPy.RVariant(endRotation * RLPy.RMath.CONST_DEG_TO_RAD))
@@ -34,7 +37,7 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     #ChangeTransitionType(control, endTime)
 
     # now set the endTime
-    endTime = endTime + 540
+    endTime = endTime + speed
 
     ##-- Set Rotation Z
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(endTime), RLPy.RVariant(startRotation * RLPy.RMath.CONST_DEG_TO_RAD))
