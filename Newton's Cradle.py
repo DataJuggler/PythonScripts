@@ -61,12 +61,6 @@ def RotateSpheres():
     endTime = framesLength.GetValue()
     frames = endTime * .001 * 60
 
-    # setup the progress bar
-    loops = round((endTime - currentTime) / 360, 0)
-    loop = 0
-    progress_bar.setRange(1, loops * 2)
-    progress_bar.setValue(0)
-
     text_edit.insertPlainText("Current Frame: " + str(currentFrame) + "\r\n");
 
     text_edit.insertPlainText("Total Frames: " + str(frames) + "\r\n");
@@ -105,9 +99,6 @@ def RotateSpheres():
         # increment the value for loop
         loop += 1
 
-        # set the value for loop
-        progress_bar.setValue(loop)
-
         if (currentTime > endTime):
 
             # exit loop
@@ -119,12 +110,6 @@ def RotateSpheres():
         # increment the value for loop
         loop += 1
 
-        # ensure the graph is in range
-        if (loop <= loops):
-            
-            # set the value for loop
-            progress_bar.setValue(loop)
-        
     #   message
     message = "Your Newtown's Cradle is ready." + "\r\n"
 
@@ -137,15 +122,13 @@ dockable_window.SetWindowTitle("Newton's Cradle Python Widget")
 # Use wrapInstance to convert the dockable window to something that Python can understand, in this case a Dock Widget
 dock = wrapInstance(int(dockable_window.GetWindow()), QtWidgets.QDockWidget)
 
-dock.setFixedSize(800, 640)
+dock.setFixedSize(800, 480)
 
 main_widget = QtWidgets.QWidget()
 dock.setWidget(main_widget)
 
 main_widget_layout = QtWidgets.QVBoxLayout()
 main_widget.setLayout(main_widget_layout)
-
-progress_bar = QtWidgets.QProgressBar()
 
 text_edit = QtWidgets.QTextEdit(readOnly=True)
 NumberRowsToCreateLabel = QtWidgets.QLabel("Add the Newton's Cradle prop to your scene before clicking the 'Rotate Spheres' button.")
@@ -157,7 +140,7 @@ RotateSpheresButton.clicked.connect(RotateSpheres)
 # Margin Label
 marginLabel = QtWidgets.QLabel("")
 
-for widget in [progress_bar, NumberRowsToCreateLabel, text_edit, marginLabel, RotateSpheresButton]:
+for widget in [NumberRowsToCreateLabel, text_edit, marginLabel, RotateSpheresButton]:
     main_widget_layout.addWidget(widget)
 
 dockable_window.Show()
