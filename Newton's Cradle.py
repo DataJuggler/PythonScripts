@@ -6,12 +6,8 @@ from PySide2.QtCore import *
 
 def ChangeTransitionType(control, currentTime):
 
-    key = RLPy.RTransformKey()
-    key.SetTime(RLPy.RTime(currentTime))
-    key.SetTransitionType(RLPy.ETransitionType_Linear)
-    
-    # add this key
-    control.AddKey(key, 0)
+    # set transition
+    control.SetKeyTransition(RLPy.RTime(currentTime), RLPy.ETransitionType_Linear, 1.0)
     
 def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
 
@@ -25,7 +21,7 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(startTime), RLPy.RVariant(startRotation * RLPy.RMath.CONST_DEG_TO_RAD))
 
     # change the TransitionType
-    #ChangeTransitionType(control, startTime)
+    ChangeTransitionType(control, startTime)
 
     # now set the endTime
     endTime = startTime + speed
@@ -34,7 +30,7 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(endTime), RLPy.RVariant(endRotation * RLPy.RMath.CONST_DEG_TO_RAD))
 
     #  change the TransitionType
-    #ChangeTransitionType(control, endTime)
+    ChangeTransitionType(control, endTime)
 
     # now set the endTime
     endTime = endTime + speed
@@ -43,7 +39,7 @@ def RotateSphere(control, dataBlock, lastEndTime, startRotation, endRotation):
     dataBlock.SetData("Rotation/RotationX", RLPy.RTime(endTime), RLPy.RVariant(startRotation * RLPy.RMath.CONST_DEG_TO_RAD))
 
     # change the TransitionType
-    #ChangeTransitionType(control, endTime)
+    ChangeTransitionType(control, endTime)
 
     # return value
     return endTime   
@@ -141,8 +137,10 @@ dockable_window.Show()
 
 # File Info
 
-# Version 1.0.0
+# Version 1.0.1
 # New Features / Fixes: 
+# Version 1.0.1: I fixed the transition type talked about in my video thanks to 4U2Guess.
+
 # This is the 1st version
 
 # Copyright 2021 Corby Nichols / aka Data Juggler
