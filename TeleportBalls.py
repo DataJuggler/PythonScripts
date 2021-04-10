@@ -201,7 +201,7 @@ main_widget.setLayout(main_widget_layout)
 text_edit = QtWidgets.QTextEdit(readOnly=True)
 
 # Interval
-IntervalSliderLabel = QtWidgets.QLabel("Interval Seconds (1 - 120)")
+IntervalSliderLabel = QtWidgets.QLabel("Interval Seconds (1 - 30)")
 IntervalSlider = QtWidgets.QSlider(orientation=Qt.Horizontal)
 
 # 1 To 30 Seconds
