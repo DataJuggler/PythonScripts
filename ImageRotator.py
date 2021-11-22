@@ -10,26 +10,6 @@ def AddTextToGlowChannelChanged():
     glowStrengthSlider.setVisible(isChecked)
 
 
-def FindSceneProps():
-    text_edit.clear()
-
-    text_edit.insertPlainText("Props Found:" + "\r\n")
-
-    # Grab all props in the scene
-    all_props = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop)
-    
-    # Iterate All Props
-    for i in range(len(all_props)):
-        
-        # get this prop
-        prop = all_props[i]
-
-        # get the name
-        name = prop.GetName()
-
-        # print this prop's name
-        text_edit.insertPlainText(name + "\r\n")
-
 def FindProp(all_props, propName):
 
     for i in range(len(all_props)):        
@@ -46,8 +26,16 @@ def ApplyImages():
 
     text_edit.clear()
 
+    # I couldn't do what I wanted, which is apply a texture at keyframes, or I haven't figured that out yet.
+    # so what I am doing is making x duplicates of the prop selected, where x = number of files in the directory
+    # minus one.
+
     # get the range value
-    interval = IntervalSlider.value() * 100
+    interval = IntervalSlider.value() * 15
+
+    print ("interval" + str(interval))
+
+    text_edit.insertPlainText("Interval: " + str(interval) + "\r\n");
 
     propName = str(combo_box.currentText())
 
@@ -61,6 +49,8 @@ def ApplyImages():
     framesLength = RLPy.RGlobal.GetProjectLength()
     endTime = framesLength.GetValue()
     frames = endTime * .001 * 60
+
+    print ("End Time: " + str(endTime))
 
     text_edit.insertPlainText("Current Frame: " + str(currentFrame) + "\r\n");
 
@@ -79,11 +69,9 @@ def ApplyImages():
     directory = path + "\\*.png";
 
     print (directory)
-
-    ts_control = prop.GetControl("Transform")
-    ts_data_block = ts_control.GetDataBlock()
-
+    
     files = []
+    props = []
     
     for file in glob.glob(directory):
         files.append(file)
@@ -93,59 +81,102 @@ def ApplyImages():
 
     #text_edit.insertPlainText(propName + "\r\n")
     loops = 0
-    index = 0
+    index = -1
 
+    props.append(prop)
 
+    # store something for now
+    lastProp = prop
+    
+    # duplicate props
+    for i in range(len(files)):
+        if (i > 0):
+            copy = prop.Clone()
+            copy.SetName(prop.GetName() + str(i + 1))
+            copy.SetVisible(RLPy.RTime(currentTime), False)
+            props.append(copy)
+
+            # need something 
+            
+
+    firstPass = True
+    
     while (currentTime < endTime):
         
-        loops = loops +1
+        if (firstPass == False):
+            loops = loops +1
 
         index = index + 1
 
-        if (index > 4):
-            index = -1
+        if (index >= len(files)):
+            # reset
+            index = 0
+
+            # no longer first pass
+            firstPass = False
 
         fileName = files[index]
 
         print (fileName)
-            
-        # apply material
-        material_component = prop.GetMaterialComponent()
-        mesh_list = prop.GetMeshNames()
-        mesh_name = mesh_list[0]
-        material_list = material_component.GetMaterialNames(mesh_name)
-        material_name = material_list[0]
 
-        #Load image to material channel
-        texture_channel = RLPy.EMaterialTextureChannel_Diffuse
-
-        diffuse_weight = 1;
-
-        key = RLPy.RKey()
-        key.SetTime(RLPy.RTime(currentTime))
-            
-        result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, fileName)
-        material_component.AddTextureWeightKey(key, mesh_name, material_name, texture_channel, diffuse_weight)
+        thisProp = props[index]
         
-        if (addTextToGlowChannelCheckBox.isChecked()):
-            texture_channel = RLPy.EMaterialTextureChannel_Glow            
-            diffuse_weight = glowStrengthSlider.value() * .01
-            result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, material_name)
-            material_component.AddTextureWeightKey(key, mesh_name, material_name,
-                                texture_channel, diffuse_weight)
+        # we only need to apply the images on the first pass
+        if (firstPass):
 
+            # apply material
+            material_component = thisProp.GetMaterialComponent()
+            mesh_list = thisProp.GetMeshNames()
+            mesh_name = mesh_list[0]
+            material_list = material_component.GetMaterialNames(mesh_name)
+            material_name = material_list[0]
+
+            #Load image to material channel
+            texture_channel = RLPy.EMaterialTextureChannel_Diffuse
+
+            diffuse_weight = 1;
+
+            key = RLPy.RKey()
+            key.SetTime(RLPy.RTime(currentTime))
         
-        # add the current time
-        currentTime += interval
+            result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, fileName)
+            material_component.AddTextureWeightKey(key, mesh_name, material_name, texture_channel, diffuse_weight)
+        
+        
+            if (addTextToGlowChannelCheckBox.isChecked()):
+                texture_channel = RLPy.EMaterialTextureChannel_Glow            
+                diffuse_weight = glowStrengthSlider.value() * .01
+                result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, material_name)
+                material_component.AddTextureWeightKey(key, mesh_name, material_name, texture_channel, diffuse_weight)
+        else:
+
+            # Set the last prop to invisible
+            lastProp.SetVisible(RLPy.RTime(currentTime), False)
+
+            # Show this prop
+            thisProp.SetVisible(RLPy.RTime(currentTime), True)
+
+            # Now set the new lastProp
+            lastProp = thisProp            
+        
+        if (firstPass == False):
+            # add the current time
+            currentTime += interval
 
         # if we are done
         if (currentTime >= endTime):
 
             # exit while loop
             break
-        
+
+        else:
+            # testing how far it gets
+            print ("Current Time: " + str(currentTime))
+            
         if (loops < 100):
             progress_bar.setValue(loops)
+        elif(loops == 100):
+            text_edit.insertPlainText("Finishing up...\r\n")
 
     text_edit.insertPlainText("Result: " + str(loops) + " key frames set \r\n")
 
