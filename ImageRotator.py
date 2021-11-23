@@ -65,7 +65,8 @@ def ApplyImages():
     
     # test
     directory = "";
-    path = "c:\\Temp\\Images"
+    path = directoryChooser.getExistingDirectory()
+
     directory = path + "\\*.png";
 
     print (directory)
@@ -207,6 +208,11 @@ text_edit = QtWidgets.QTextEdit(readOnly=True)
 # Interval
 IntervalSliderLabel = QtWidgets.QLabel("Interval Seconds (.1 - 30)")
 IntervalSlider = QtWidgets.QSlider(orientation=Qt.Horizontal)
+
+directoryChooser = QtWidgets.QFileDialog();
+directoryChooser.FileMode = QtWidgets.QFileDialog.Directory
+directoryChooser.Options = QtWidgets.QFileDialog.ShowDirsOnly
+directoryChooser.setWindowTitle('Select folder containing your images')
 
 # .1 To 30 Seconds
 IntervalSlider.setRange(1, 300)
