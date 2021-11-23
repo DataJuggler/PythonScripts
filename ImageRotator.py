@@ -137,16 +137,15 @@ def ApplyImages():
             diffuse_weight = 1;
 
             key = RLPy.RKey()
-            key.SetTime(RLPy.RTime(currentTime))
-        
+            key.SetTime(RLPy.RTime(0))
+
             result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, fileName)
             material_component.AddTextureWeightKey(key, mesh_name, material_name, texture_channel, diffuse_weight)
         
-        
-            if (addTextToGlowChannelCheckBox.isChecked()):
-                texture_channel = RLPy.EMaterialTextureChannel_Glow            
+            if (addTextToGlowChannelCheckBox.isChecked()):                
+                texture_channel = RLPy.EMaterialTextureChannel_Glow                
                 diffuse_weight = glowStrengthSlider.value() * .01
-                result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, material_name)
+                result = material_component.LoadImageToTexture(mesh_name, material_name, texture_channel, fileName)
                 material_component.AddTextureWeightKey(key, mesh_name, material_name, texture_channel, diffuse_weight)
         else:
 
