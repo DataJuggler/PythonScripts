@@ -94,10 +94,7 @@ def ApplyImages():
             copy = prop.Clone()
             copy.SetName(prop.GetName() + str(i + 1))
             copy.SetVisible(RLPy.RTime(currentTime), False)
-            props.append(copy)
-
-            # need something 
-            
+            props.append(copy)            
 
     firstPass = True
     
@@ -176,6 +173,14 @@ def ApplyImages():
             progress_bar.setValue(loops)
         elif(loops == 100):
             text_edit.insertPlainText("Finishing up...\r\n")
+
+    # The parent has to be set after all the keyframes are set
+    text_edit.insertPlainText("Setting child props. Almost done...\r\n")
+
+    for i in range(len(props)):
+        if (i > 0):
+            prop = props[i]
+            prop.SetParent(props[0])
 
     text_edit.insertPlainText("Result: " + str(loops) + " key frames set \r\n")
 
