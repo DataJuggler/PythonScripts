@@ -34,6 +34,71 @@ def RegisterCars():
     # return value
     return cars
 
+def RepositionCars():
+
+    # Get the props that start with Car
+    tempCars = RegisterCars()
+
+    # start position
+    posX = -15000
+    posY = -2320
+    posZ = 0
+
+    cars = []
+
+    # original value, won't fire on the first one
+    lastCar = "NotSet"
+    
+    for i in range(len(tempCars)):
+
+        # create a car
+        car = Car()
+
+        # set the properties
+        car.Prop = tempCars[i]
+
+        cars.append(car)
+
+    for i in range(len(cars)):
+
+        # get the car at this index
+        car = cars[i]
+
+        # get the name of this car
+        name = car.Prop.GetName()
+
+        # if this car, or the last car was car 17 or car 6, these cars are longer
+        if ((name == "Car6") or (name =="Car17")):
+
+            # the last car was bigger
+            posX = posX - 360
+
+            # adjust a little left extra also
+            posY = posY + 20    
+
+        if ((lastCar == "Car6") or (lastCar == "Car17")):
+
+            # the last car was bigger
+            posX = posX - 240
+
+            # adjust a little left extra also
+            posY = posY + 10    
+
+        # line the cars up behind each other
+        posX = posX - 600
+
+        # adjust a little left each car
+        posY = posY + 30
+
+        # position the prop
+        PositionProp(car.Prop, posX, posY, posZ, 0, RLPy.ETransitionType_Step, 0)     
+
+        # set name
+        lastCar = name
+
+    # show number of cars found
+    text_edit.insertPlainText("Parked " + str(len(cars)) + " cars." + "\r\n")    
+
 def CreateTraffic():
 
     # Get the current time
@@ -47,14 +112,17 @@ def CreateTraffic():
     endTime = framesLength.GetValue()
     frames = endTime * .001 * 60
 
-    text_edit.insertPlainText("Current Frame: " + str(currentFrame) + "\r\n");
+    # text_edit.insertPlainText("Current Frame: " + str(currentFrame) + "\r\n");
 
-    text_edit.insertPlainText("Total Frames: " + str(frames) + "\r\n");
+    # text_edit.insertPlainText("End Time: " + str(endTime) + "\r\n");
+
+    # text_edit.insertPlainText("Total Frames: " + str(frames) + "\r\n");
 
     randomOrder = RandomOrderCheckBox.isChecked()
 
     oneWayTraffic = OneWayCheckBox.isChecked()
 
+    # Get the props that start with Car
     tempCars = RegisterCars()
 
     cars = []
@@ -70,51 +138,106 @@ def CreateTraffic():
         cars.append(car)
 
     # show number of cars found
-    text_edit.insertPlainText("Registered " + str(len(cars)) + " cars." + "\r\n")
+    # text_edit.insertPlainText("Registered " + str(len(cars)) + " cars." + "\r\n")
 
-    speed = (SpeedSlider.value() * 30)
+    speed = (SpeedSlider.value() * 180)
 
     # show speed
-    text_edit.insertPlainText("Speed: " + str(speed) + "." + "\r\n")
+    # text_edit.insertPlainText("Speed: " + str(speed) + "." + "\r\n")
 
-    interval = 9000 - speed;
+    interval = 36000 - speed;
 
     # safeguard
     if (interval < 10):
         interval = 10
 
     # Show interval
-    text_edit.insertPlainText("Interval (9,000 - Speed): " + str(interval) + "." + "\r\n")
+    # text_edit.insertPlainText("Interval (18,000 - Speed): " + str(interval) + "." + "\r\n")
 
     congestion = CongestionSlider.value() * 5
 
     congestionValue = 1000 - congestion
 
     # show congestion
-    text_edit.insertPlainText("Congestion: " + str(congestion) + "%." + "\r\n")
+    # text_edit.insertPlainText("Congestion: " + str(congestion) + "%." + "\r\n")
 
-    # if random
-    if (randomOrder):
+    ## if random
+    #if (randomOrder):
 
-        text_edit.insertPlainText("Cars are displayed in random order.\r\n")
+    #    text_edit.insertPlainText("Cars are displayed in random order.\r\n")
 
-    else:
+    #else:
 
-        text_edit.insertPlainText("Cars are displayed in numerical order. Car1, Car2, etc.\r\n")
+    #    text_edit.insertPlainText("Cars are displayed in numerical order. Car1, Car2, etc.\r\n")
 
-    if (oneWayTraffic):
+    #if (oneWayTraffic):
 
-        text_edit.insertPlainText("Traffic will be displayed in one direction.\r\n")
+    #    text_edit.insertPlainText("Traffic will be displayed in one direction.\r\n")
 
-    else:
+    #else:
 
-        text_edit.insertPlainText("Traffic will be displayed in both directions.\r\n")
+    #    text_edit.insertPlainText("Traffic will be displayed in both directions.\r\n")
 
     
     # show animating message
-    text_edit.insertPlainText("Animating cars, please wait...\r\n")
+    # text_edit.insertPlainText("Animating cars, please wait...\r\n")
 
     keyFrames = 0
+
+    # used for positioning
+    posX = 0
+    posY = 0
+    posZ = 0
+    posX2 = 0
+    posY2 = 0
+    posZ2 = 0
+    direction = 0
+
+    if (oneWayTraffic):
+
+        # show animating message
+        # text_edit.insertPlainText("One way traffic. Direction: " + str(direction) + "\r\n")
+
+        # get a 0 or a 1
+        direction = GetRandomNumber(2, 0)
+
+        if (direction == 0):
+            
+            # left to right
+
+            # show animating message
+            text_edit.insertPlainText("One way traffic. Direction: Left To Right\r\n")
+
+            # start position
+            posX = -16861.480
+            posY = -2270.022
+            posZ = 0
+
+            # end position                    
+            posX2 = 11877
+            posY2 = -3702
+            posZ2 = 0
+            
+        else:
+
+            # right to left
+
+            # show animating message
+            # text_edit.insertPlainText("One way traffic. Direction: Right To Left\r\n")
+
+            # start position
+            posX = 11877.729
+            posY = -3240.758
+            posZ = 0
+
+            #end position
+            posX = -16861
+            posY = -1756.000
+            posZ = 0
+
+            # rotate the prop
+            
+            # ts_data_block.SetData("Rotation/RotationY",  RLPy.RTime(0), RLPy.RVariant(rotationValue * RLPy.RMath.CONST_DEG_TO_RAD))
 
     while (currentTime < endTime):
 
@@ -142,12 +265,38 @@ def CreateTraffic():
             cars[number].InMotion = True
 
             # show car
-            text_edit.insertPlainText("Car " + car.Prop.GetName() + "\r\n")
+            # text_edit.insertPlainText("Car " + car.Prop.GetName() + "\r\n")
+
+            # if traffic is two way
+            if (not oneWayTraffic):
+
+                # traffic goes in both directions
+
+                # get a 0 or a 1
+                direction = GetRandomNumber(2, 0)
+
+                # show animating message
+                # text_edit.insertPlainText("Two way traffic. Direction: " + str(direction) + "\r\n")
+
+                if (direction == 0):
+
+                    # show animating message
+                    # text_edit.insertPlainText("Two way traffic. Direction: Left To Right\r\n")
         
-            # setup start position of this car
-            posX = -16861.480
-            posY = -2270.022
-            posZ = 0
+                    # setup start position of this car
+                    posX = -16861.480
+                    posY = -2270.022
+                    posZ = 0
+
+                elif (direction == 1):
+
+                    # show animating message
+                    # text_edit.insertPlainText("Two way traffic. Direction: Right To Left\r\n")
+
+                    # change to right to left start position
+                    posX = 11877.729
+                    posY = -3240.758
+                    posZ = 0                    
 
             # increment
             keyFrames = keyFrames + 1
@@ -164,10 +313,13 @@ def CreateTraffic():
                 carStartTime = 0
         
             # show keyFrames added message
-            text_edit.insertPlainText("Car start Time: " + str(carStartTime) + ".\r\n")
+            # text_edit.insertPlainText("Car start Time: " + str(carStartTime) + ".\r\n")
+
+            # Show this car before the prop starts
+            car.Prop.SetVisible(RLPy.RTime(carStartTime - 1), True)
 
             # set the prop to the start frame
-            PositionProp(car.Prop, posX, posY, posZ, carStartTime, RLPy.ETransitionType_Step, number)
+            PositionProp(car.Prop, posX, posY, posZ, carStartTime, RLPy.ETransitionType_Step, direction)
 
             # get the end time for this car
             carEndTime = carStartTime + interval
@@ -176,68 +328,122 @@ def CreateTraffic():
             cars[number].EndTime = carEndTime
 
             # show keyFrames added message
-            text_edit.insertPlainText("Car End Time: " + str(carEndTime) + ".\r\n")
+            # text_edit.insertPlainText("Car End Time: " + str(carEndTime) + ".\r\n")
+
+            if (not oneWayTraffic):
         
-            # setup end position of this car
-            posX = 11877.729
-            posY = -3702.072
-            posZ = 0
+                if (direction == 0):
+
+                    # left to right
+        
+                    # end position                    
+                    posX2 = 11877
+                    posY2 = -3702
+                    posZ2 = 0
+
+                elif (direction == 1):
+
+                    # right to left
+
+                    # end position                    
+                    posX2 = -16861
+                    posY2 = -1756.000
+                    posZ2 = 0
 
             # increment
             keyFrames = keyFrames + 1
 
             # set the prop to the start frame
-            PositionProp(car.Prop, posX, posY, posZ, carEndTime, RLPy.ETransitionType_Linear, number)
+            PositionProp(car.Prop, posX2, posY2, posZ2, carEndTime, RLPy.ETransitionType_Linear, direction)
 
             # now increment the current time
-            currentTime = currentTime + congestionValue
+            currentTime = int(currentTime + congestionValue)
 
-            # Update the InMotion value
-            for i in range (len(cars)):
+            # Hide this car after the prop finishes
+            car.Prop.SetVisible(RLPy.RTime(carEndTime + 1), False)
 
-                # if we have reached end of this car's motion
-                # release the car back to idle 
-                if (currentTime >= cars[i].EndTime):
+            # show current time
+            # text_edit.insertPlainText("Current Time: " + str(currentTime) + "\r\n")            
 
-                    # this car is no longer in motion
-                    cars[i].InMotion = False
+        else:
 
-                    # show keyFrames added message
-                    text_edit.insertPlainText("Car " + cars[i].Prop.GetName() + " finished motion at " + str(currentTime) + "\r\n")
+            # now increment the current time a little, else an infinite loop crashes IClone
+            currentTime = int(currentTime + (congestionValue * .1))
+            
+            # show current time
+            # text_edit.insertPlainText("Current Time: " + str(currentTime) + "\r\n")
 
+        # Recycle cars - update the InMotion value if Time has expired
+        for i in range (len(cars)):
+
+            # if we have reached end of this car's motion
+            # release the car back to idle 
+            if ((cars[i].InMotion) and (currentTime >= cars[i].EndTime)):
+
+                # this car is no longer in motion
+                cars[i].InMotion = False
+
+                # show keyFrames added message
+                # text_edit.insertPlainText(cars[i].Prop.GetName() + " finished motion at " + str(currentTime) + "\r\n")
 
     # show keyFrames added message
-    text_edit.insertPlainText("Added " + str(keyFrames) + " key frames.\r\n")
+    # text_edit.insertPlainText("Added " + str(keyFrames) + " key frames.\r\n")
 
-    if (keyFrames > 0):
+    #if (keyFrames > 0):
 
-        # show ready
-        text_edit.insertPlainText("Animation finished. Press play to view car animations.\r\n")
+    #    # show ready
+    #    # text_edit.insertPlainText("Animation finished. Press play to view car animations.\r\n")
 
-    else:
+    #else:
 
-        # show ready
-        text_edit.insertPlainText("Zero key frames were added, please debug your script.\r\n")
+    #    # show ready
+    #    text_edit.insertPlainText("Zero key frames were added, please debug your script.\r\n")
 
 def ChangeTransitionType(control, currentTime, transitionType):
 
     # set transition
     control.SetKeyTransition(RLPy.RTime(currentTime), transitionType, 1.0)
 
-def PositionProp(prop, moveX, moveY, moveZ, currentTime, transitionType, number):
+def PositionProp(prop, moveX, moveY, moveZ, currentTime, transitionType, direction):
+
+    # show number of cars found
+    text_edit.insertPlainText("Prop: " + prop.GetName() + "\r\n")    
+    text_edit.insertPlainText("PositionX: " + str(moveX) + "\r\n")    
+    text_edit.insertPlainText("PositionY: " + str(moveY) + "\r\n")    
+    text_edit.insertPlainText("PositionZ: " + str(moveZ) + "\r\n")    
+    text_edit.insertPlainText("Current Time: " + str(currentTime) + "\r\n")    
+    text_edit.insertPlainText("Direction: " + str(direction) + "\r\n")    
 
     # get access to the control
     ts_control = prop.GetControl("Transform")
-    ts_data_block = ts_control.GetDataBlock()
+    ts_data_block = ts_control.GetDataBlock()    
 
     # now posiiton     
     ts_data_block.SetData("Position/PositionX", RLPy.RTime(currentTime), RLPy.RVariant(moveX))
     ts_data_block.SetData("Position/PositionY", RLPy.RTime(currentTime), RLPy.RVariant(moveY))
     ts_data_block.SetData("Position/PositionZ", RLPy.RTime(currentTime), RLPy.RVariant(moveZ))
 
-    # Change the transition type
-    ChangeTransitionType(ts_control, currentTime, transitionType)
+    time = RLPy.RTime(currentTime)
+    transform = RLPy.RTransform()
+    ts_control.GetValue(time, transform)
+    rotationZ = transform.R().z # Get Prop Z Rotation
+
+    if ((direction == 1) and (rotationZ != 180)):
+        
+        # rotate 180
+        transform.R().z = 180
+        ts_control.SetValue(time, transform)
+
+    elif ((direction == 0) and (rotationZ != 0)):
+
+        # reset to original
+        transform.R().z = 0
+        ts_control.SetValue(time, transform)
+
     
+
+    # Change the transition type
+    ChangeTransitionType(ts_control, currentTime, transitionType)   
 
 # Create an iClone Dock Widget
 dockable_window = RLPy.RUi.CreateRDockWidget()
@@ -295,13 +501,17 @@ CongestionSlider.setValue(0)
 CreateTrafficButton = QtWidgets.QPushButton("Create Traffic")
 CreateTrafficButton.clicked.connect(CreateTraffic)
 
+# Button(s) #
+RepositionButton = QtWidgets.QPushButton("Reposition Cars")
+RepositionButton.clicked.connect(RepositionCars)
+
 # Grab all props in the scene
 all_props = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop)
 
 # Margin Label
 marginLabel = QtWidgets.QLabel("")
 
-for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton]:
+for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton, RepositionButton]:
     main_widget_layout.addWidget(widget)
 
 dockable_window.Show()
