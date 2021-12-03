@@ -5,7 +5,54 @@ from PySide2.shiboken2 import wrapInstance
 from PySide2.QtCore import *
 import random
 
+class Car:
+    def __init__(self):
+        self.__Prop = None
+        self.__InMotion = False
+        self.__StartTime = 0
+        self.__EndTime = 0
+    def SetProp(self, prop):
+        self.__Prop = prop
+    def GetProp(self):
+        return self.__Prop
+    def SetInMotion(self, inMotion):
+        self.__InMotion = inMotion
+    def GetInMotion(self):
+        return self.__InMotion
+    def SetStartTime(self, startTime):
+        self.__StartTime = startTime
+    def GetStartTime(self):
+        return self.__StartTime
+    def SetEndTime(self, endTime):
+        self.__EndTime = endTime
+    def GetEndTime(self):
+        return self.__EndTime
+    Prop=property(GetProp, SetProp)
+    InMotion=property(GetInMotion, SetInMotion)
+    StartTime=property(GetStartTime, SetStartTime)
+    EndTime=property(GetEndTime, SetEndTime)
 
+
+class PropInfo:
+    def __init__(self):
+        self.__Prop = None
+        self.__Name = ""
+        self.__Index = 0
+    def SetProp(self, prop):
+        self.__Prop = prop
+    def GetProp(self):
+        return self.__Prop
+    def SetName(self, name):
+        self.__Name = name
+    def GetName(self):
+        return self.__Name
+    def SetIndex(self, index):
+        self.__Index = index
+    def GetIndex(self):
+        return self.__Index
+    Prop=property(GetProp, SetProp)
+    Name=property(GetName, SetName)
+    Index=property(GetIndex, SetIndex)
 
 def GetRandomValueInRange(max, subtractAmount):
 
@@ -51,7 +98,7 @@ def GetWheels(carName):
         name = Props[i].Name
 
         # if the text ends in the car name and name starts with Wheel
-        if ((name.endswith(carName) and (name.startswith("Wheel"))))
+        if ((name.endswith(carName) and (name.startswith("Wheel")))):
 
             # add this object
             wheels.append(Props[i])
@@ -673,10 +720,6 @@ RenameWheelsButton = QtWidgets.QPushButton("Rename Wheels")
 RenameWheelsButton.clicked.connect(RenameWheels)
 RenameWheelsButton.setEnabled(False)
 
-# LoadProps
-LoadPropsButton = QtWidgets.QPushButton("Load Props")
-LoadPropsButton.clicked.connect(LoadProps)
-
 # Grab all props in the scene
 all_props = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop)
 
@@ -686,10 +729,13 @@ Props = []
 # Margin Label
 marginLabel = QtWidgets.QLabel("")
 
-for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, LoadPropsButton, CreateTrafficButton, RepositionButton, RotateWheelsButton, RenameWheelsButton]:
+for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton, RepositionButton, RotateWheelsButton, RenameWheelsButton]:
     main_widget_layout.addWidget(widget)
 
 dockable_window.Show()
+
+# Load the PropInfo objects
+LoadProps()
 
 # File Info
 
@@ -697,51 +743,3 @@ dockable_window.Show()
 
 # New Features / Fixes: 
 
-class Car:
-    def __init__(self):
-        self.__Prop = None
-        self.__InMotion = False
-        self.__StartTime = 0
-        self.__EndTime = 0
-    def SetProp(self, prop):
-        self.__Prop = prop
-    def GetProp(self):
-        return self.__Prop
-    def SetInMotion(self, inMotion):
-        self.__InMotion = inMotion
-    def GetInMotion(self):
-        return self.__InMotion
-    def SetStartTime(self, startTime):
-        self.__StartTime = startTime
-    def GetStartTime(self):
-        return self.__StartTime
-    def SetEndTime(self, endTime):
-        self.__EndTime = endTime
-    def GetEndTime(self):
-        return self.__EndTime
-    Prop=property(GetProp, SetProp)
-    InMotion=property(GetInMotion, SetInMotion)
-    StartTime=property(GetStartTime, SetStartTime)
-    EndTime=property(GetEndTime, SetEndTime)
-
-
-class PropInfo:
-    def __init__(self):
-        self.__Prop = None
-        self.__Name = ""
-        self.__Index = 0
-    def SetProp(self, prop):
-        self.__Prop = prop
-    def GetProp(self):
-        return self.__Prop
-    def SetName(self, name):
-        self.__Name = name
-    def GetName(self):
-        return self.__Name
-    def SetIndex(self, index):
-        self.__Index = index
-    def GetIndex(self):
-        return self.__Index
-    Prop=property(GetProp, SetProp)
-    Name=property(GetName, SetName)
-    Index=property(GetIndex, SetIndex)
