@@ -23,16 +23,116 @@ def RegisterCars():
     # create
     cars = []
 
-    for i in range(len(all_props)):        
+    for i in range(len(Props)):        
 
-        name = all_props[i].GetName()
+        # get the name
+        name = Props[i].Name
 
         if (name.startswith("Car")):
         
-            cars.append(all_props[i])
+            # add this Prop
+            cars.append(Props[i])
 
     # return value
     return cars
+
+def GetWheels(carName):
+
+    # initial value
+    wheels = []
+
+    # to set the index    
+    index = 0
+
+    # iterate the Props
+    for i in range(len(Props)):        
+
+        # get the name of this prop
+        name = Props[i].Name
+
+        # if the text ends in the car name and name starts with Wheel
+        if ((name.endswith(carName) and (name.startswith("Wheel"))))
+
+            # add this object
+            wheels.append(Props[i])
+
+            # increment
+            index = index + 1
+
+    # return value
+    return wheels
+
+def RotateWheels():
+
+    # Get the props that start with Car
+    cars = RegisterCars()
+
+    # if the wheels exists
+    if (cars is not None):
+
+        progress_bar.setRange(1, len(cars))
+    
+        # iterate the cars
+        for i in range(len(cars)):
+
+            # get the name
+            name = cars[i].GetName()
+
+            text_edit.insertPlainText("Car: " + name + "\r\n")
+
+            # get the wheels for this car
+            wheels = GetWheels(name)
+
+            # testing before applying
+
+            # if the wheels exists
+            if (wheels is not None):
+
+                for x in range(len(wheels)):
+
+                    # get the wheel name   
+                    wheel = wheels[x].Name
+
+                    # displaying wheel name instead of rotating 
+                    text_edit.insertPlainText("Wheel: " + wheel + "\r\n")
+
+            # update the progress bar
+            progress_bar.setValue(i)
+        
+def RenameWheels():
+
+    # get the renamed count
+    count = 0
+
+    # find all props that contain the text wheel
+    for i in range(len(Props)):        
+
+        name = Props[i].Name
+
+        # if this prop has the word wheel
+        if ("Wheel" in name):
+        
+            # get the new name
+            index = name.index("Wheel")
+
+            # get the carName
+            carName = name[0:index]
+
+            # get the newName
+            newName = name[index:(len(name))] + carName
+
+            # set the newName
+            Props[i].Prop.SetName(newName)
+
+            # update count
+            count = count + 1
+
+            # I used this to get the names before renaming
+            text_edit.insertPlainText("Old Name: " + name + "\r\n")
+            text_edit.insertPlainText("New Name: " + newName  + "\r\n")
+
+    # show the total renamed
+    text_edit.insertPlainText("Renamed: " + str(count)  + "\r\n")
 
 def RepositionCars():
 
@@ -133,14 +233,17 @@ def CreateTraffic():
         car = Car()
 
         # set the properties
-        car.Prop = tempCars[i]
+        car.Prop = tempCars[i].Prop
+
+        # hide all cars at the start
+        car.Prop.SetVisible(RLPy.RTime(0), False)
 
         cars.append(car)
 
     # show number of cars found
     # text_edit.insertPlainText("Registered " + str(len(cars)) + " cars." + "\r\n")
 
-    speed = (SpeedSlider.value() * 180)
+    speed = (SpeedSlider.value() * 40)
 
     # show speed
     # text_edit.insertPlainText("Speed: " + str(speed) + "." + "\r\n")
@@ -154,9 +257,9 @@ def CreateTraffic():
     # Show interval
     # text_edit.insertPlainText("Interval (18,000 - Speed): " + str(interval) + "." + "\r\n")
 
-    congestion = CongestionSlider.value() * 5
+    congestion = CongestionSlider.value() * 10
 
-    congestionValue = 1000 - congestion
+    congestionValue = 2000 - congestion
 
     # show congestion
     # text_edit.insertPlainText("Congestion: " + str(congestion) + "%." + "\r\n")
@@ -307,10 +410,10 @@ def CreateTraffic():
             # set the start time
             cars[number].StartTime = carStartTime
 
-            if (carStartTime < 0):
+            if (carStartTime < 1):
 
                 # reset
-                carStartTime = 0
+                carStartTime = 1
         
             # show keyFrames added message
             # text_edit.insertPlainText("Car start Time: " + str(carStartTime) + ".\r\n")
@@ -404,6 +507,61 @@ def ChangeTransitionType(control, currentTime, transitionType):
     # set transition
     control.SetKeyTransition(RLPy.RTime(currentTime), transitionType, 1.0)
 
+def ConvertProps(all_props):
+    
+    # initial value
+    props = []
+
+    # counter
+    count = 0
+
+    # ensure the all_props exist
+    if (all_props is not None):
+
+        # iterate all_props
+        for i in range (len(all_props)):
+
+            # create a new class
+            prop = PropInfo()
+            
+            # set the properties
+            prop.Prop = all_props[i]
+            prop.Name = prop.Prop.GetName()
+            prop.Index = count
+
+            # add this item
+            props.append(prop)
+
+            # increment
+            count = count + 1
+
+    # return value
+    return props
+
+def LoadProps():
+
+    # convert the props
+    Props = ConvertProps(all_props)
+
+    # if the props were found
+    if ((Props is not None) and (len(Props) > 0)):
+
+        CreateTrafficButton.setEnabled(True)
+        RepositionButton.setEnabled(True)
+        RotateWheelsButton.setEnabled(True)
+        RenameWheelsButton.setEnabled(True)
+
+        # Should never happen
+        text_edit.insertPlainText("Loaded " + str(len(Props)) + " props.\r\n")
+
+        # show a message the program is ready to use
+        text_edit.insertPlainText("Ready." + "\r\n")
+
+    else:
+
+        # Should never happen
+        text_edit.insertPlainText("Something went wrong." + "\r\n")
+
 def PositionProp(prop, moveX, moveY, moveZ, currentTime, transitionType, direction):
 
     # show number of cars found
@@ -438,9 +596,7 @@ def PositionProp(prop, moveX, moveY, moveZ, currentTime, transitionType, directi
 
         # reset to original
         transform.R().z = 0
-        ts_control.SetValue(time, transform)
-
-    
+        ts_control.SetValue(time, transform)    
 
     # Change the transition type
     ChangeTransitionType(ts_control, currentTime, transitionType)   
@@ -497,21 +653,40 @@ CongestionSlider.setSingleStep(1)
 # Default to 50
 CongestionSlider.setValue(0)
 
-# Button(s) #
+# Button to create the traffic animation
 CreateTrafficButton = QtWidgets.QPushButton("Create Traffic")
 CreateTrafficButton.clicked.connect(CreateTraffic)
+CreateTrafficButton.setEnabled(False)
 
-# Button(s) #
+# Button to line up the cars
 RepositionButton = QtWidgets.QPushButton("Reposition Cars")
 RepositionButton.clicked.connect(RepositionCars)
+RepositionButton.setEnabled(False)
+
+# Rotate Wheels
+RotateWheelsButton = QtWidgets.QPushButton("Rotate Wheels")
+RotateWheelsButton.clicked.connect(RotateWheels)
+RotateWheelsButton.setEnabled(False)
+
+# Rename Wheels
+RenameWheelsButton = QtWidgets.QPushButton("Rename Wheels")
+RenameWheelsButton.clicked.connect(RenameWheels)
+RenameWheelsButton.setEnabled(False)
+
+# LoadProps
+LoadPropsButton = QtWidgets.QPushButton("Load Props")
+LoadPropsButton.clicked.connect(LoadProps)
 
 # Grab all props in the scene
 all_props = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop)
 
+# Has To Be Loaded Later For Some Reason
+Props = []
+
 # Margin Label
 marginLabel = QtWidgets.QLabel("")
 
-for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton, RepositionButton]:
+for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, LoadPropsButton, CreateTrafficButton, RepositionButton, RotateWheelsButton, RenameWheelsButton]:
     main_widget_layout.addWidget(widget)
 
 dockable_window.Show()
@@ -548,3 +723,25 @@ class Car:
     InMotion=property(GetInMotion, SetInMotion)
     StartTime=property(GetStartTime, SetStartTime)
     EndTime=property(GetEndTime, SetEndTime)
+
+
+class PropInfo:
+    def __init__(self):
+        self.__Prop = None
+        self.__Name = ""
+        self.__Index = 0
+    def SetProp(self, prop):
+        self.__Prop = prop
+    def GetProp(self):
+        return self.__Prop
+    def SetName(self, name):
+        self.__Name = name
+    def GetName(self):
+        return self.__Name
+    def SetIndex(self, index):
+        self.__Index = index
+    def GetIndex(self):
+        return self.__Index
+    Prop=property(GetProp, SetProp)
+    Name=property(GetName, SetName)
+    Index=property(GetIndex, SetIndex)
