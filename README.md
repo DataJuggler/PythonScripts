@@ -12,11 +12,26 @@ This part takes some manual configuration in IClone, as I had to edit the Pivot 
 
 It works, however I still need to rotate the tires, which also have to all be renamed to:
 Car[CarNumber]Wheel[Front|Back][Left|Right]
-Examples:
+Examples: (don't use, use what is below starting with Wheel)
 Car1WheelFL  - Front Left
+
 Car1WheelFR  - Front Right
+
 Car1WheelRL  - Rear Left
+
 Car1WheelRR  - Rear Right
+
+# Edit 12.3.2021:
+The above didn't work, because I had to get the cars starting with car, so I wrote a rename button, and it renamed all the props to:
+WheelFLCar1
+
+WheelFRCar1
+
+WheelRLCar1
+
+WheelRRCar1
+
+
 
 The current version checked in does not spin the tires, but the other thing you have to do for this to work is detach the tires from the car.
 Once the tire spin is implimented, the tires will be rotated depending on the Direction (Left to Right or Right to Left).
