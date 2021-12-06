@@ -6,11 +6,21 @@ I am always open to a better way.
 Update 11.28.2021:
 # Car Driver.py
 
-I created a new script called Car Driver.py. To use this script. create one or more cars, and name them Car1, Car2, etc. Line up a horizontal road, and line up a car where you want cars to start (off screen to the left or right usually). The script is currently only one way, but I will update with two way and more realistic looking traffic as soon as I can.
+This script requires a lot of manual configuration in IClone. 
 
-This part takes some manual configuration in IClone, as I had to edit the Pivot positions of all the cars so that the rotation z and position z are set to 0 in Edit Pivot (which resets Transform values to match). This way all cars point the same direction at 0 rotation, and are the same vertical position.
+Step 1: Add as many cars as you want. Name them Car1, Car2, etc.
 
-It works, however I still need to rotate the tires, which also have to all be renamed to:
+Step 2: Run this Python script, and click 'Reposition Cars'.
+
+Step 3: Rename Tires and Detach
+
+This is a pain, but you can't refer to the child objects in IClone's Python API, so you have to rename all your tires and detach them. 
+The script does put them back. Here is an example for car 1: 
+
+WheelFLCar1, WheelFRCar1, WheelRLCar1, WheelRRCar1
+
+Renaming Wheels Help
+
 Car[CarNumber]Wheel[Front|Back][Left|Right]
 Examples: (don't use, use what is below starting with Wheel)
 Car1WheelFL  - Front Left
@@ -21,24 +31,30 @@ Car1WheelRL  - Rear Left
 
 Car1WheelRR  - Rear Right
 
-# Edit 12.3.2021:
-The above didn't work, because I had to get the cars starting with car, so I wrote a rename button, and it renamed all the props to:
-WheelFLCar1
+Step 4: Run this script again, click the Reset Pivot button.
 
-WheelFRCar1
+Step 5: Make a copy of one of your cars (and delete it later), to get the position where you want cars to start (off screen to the left is what I use for direction 0, and off screen to the right for direction 1. Set the PositionX2, Y2, and Z2 for direction also.
 
-WheelRLCar1
+I will include a project with an empty Bowling Alley exterior and Road that has the values in the script to the marketplace when I get a chance, but I can't give away the cars because I didn't buy the export license. 
 
-WheelRRCar1
+In IClone, on the Modify > Transform tab, copy the PositionX, Y and Z values from IClone and replace the ones I have in this script (search for
+start position and end position comments), if you are not using my Bowling Alley project. 
+
+Step 6: Remove all car animations (all scene animation preferably), and make sure your project is set to the length you want, and that your current time in IClone is Frame 1.
+
+Tip: I have found it takes about 600 - 1200 frames to start showing cars, depending on how far off screen your start positions are, so I made my project 19,200 frames, and rendered from 900, gives over 5 minutes of car traffic. 
+
+Notes:
+In addition to the Reset Pivot button, some cars had one rear wheel, so I deleted it and added my own rear wheels (clones of the front wheels).
+
+Some wheels had to be selected, and Middle Center selected as the Pivot, even though it was already saying Middle, this seemed to fix wheels that didn't rotate properly.
+
+Future Plans: It would be nice to have things like traffic comes to a stop in places (for red lights or just traffic). Having a some cars make turns and go in anoteher direction would add realism. Break lights that come on and off would be cool, and head lights that actually light up, but these are version 2 things.
+
+Just happy to be done with this.
 
 
 
-The current version checked in does not spin the tires, but the other thing you have to do for this to work is detach the tires from the car.
-Once the tire spin is implimented, the tires will be rotated depending on the Direction (Left to Right or Right to Left).
-After the tires are rotated I plan on reattaching them to the car. As of the time of this writing, you can't get child props from a prop, so that is why
-the tires have to be detached.
-
-Some of my cars do not have all 4 sets wheels, as a couple only have 'Read Wheels', so you may see some special cases for if car number == 2 or 9 in my case, I have to switch the prop name to RearWheels. I will try and make this as generic as possible, else if I leave this in by accident, just take it out.
 
 
 Update 2.5.2021: 3D Text Speller
