@@ -318,9 +318,10 @@ def CreateTraffic():
         if (interval < 10):
             interval = 10
 
-        congestion = CongestionSlider.value() * 10
+        # lower the multiplier if you want bigger gaps between cars.
+        congestion = CongestionSlider.value() * 8
 
-        congestionValue = 2000 - congestion
+        congestionValue = 2200 - congestion
 
         # get the end time for this car
         carEndTime = currentTime + interval
