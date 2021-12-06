@@ -320,7 +320,7 @@ def CreateTraffic():
 
         congestion = CongestionSlider.value() * 10
 
-        congestionValue = 2000 - congestion    
+        congestionValue = 2000 - congestion
 
         # get the end time for this car
         carEndTime = currentTime + interval
@@ -776,7 +776,7 @@ CongestionSlider.setRange(0, 100)
 CongestionSlider.setSingleStep(1)
 
 # Default to 50
-CongestionSlider.setValue(0)
+CongestionSlider.setValue(50)
 
 # Button to create the traffic animation
 CreateTrafficButton = QtWidgets.QPushButton("Create Traffic")
