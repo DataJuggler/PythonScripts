@@ -194,15 +194,14 @@ def RotateWheels(car, wheels, direction, startTime, endTime):
             wheel.Prop.SetParent(car.Prop)
         
 def RepositionCars():
-
-    # Get the props that start with Car
-    tempCars = RegisterCars()
+    
 
     # start position
-    posX = -15000
-    posY = -2320
+    posX = -16861.480
+    posY = -2270.022
     posZ = 0
 
+    # Get the Cars    
     cars = GetCars()
 
     # initial value
@@ -215,34 +214,11 @@ def RepositionCars():
             # get the car at this index
             car = cars[i]
 
-            # show each car for this, they get hidden next time it starts
+            # show each car for this, make sure to hide them before Create Traffic
             car.Prop.SetVisible(RLPy.RTime(0), True)
 
             # get a local reference to the name of this car
             name = car.Name
-
-            # if this car, or the last car was car 17 or car 6, these cars are longer
-            if ((name == "Car6") or (name =="Car17")):
-
-                # the last car was bigger
-                posX = posX - 360
-
-                # adjust a little left extra also
-                posY = posY + 20    
-
-            if ((lastCar == "Car6") or (lastCar == "Car17")):
-
-                # the last car was bigger
-                posX = posX - 240
-
-                # adjust a little left extra also
-                posY = posY + 10    
-
-            # line the cars up behind each other
-            posX = posX - 600
-
-            # adjust a little left each car
-            posY = posY + 30
 
             # position the prop
             PositionProp(car.Prop, posX, posY, posZ, 0, RLPy.ETransitionType_Step, 0)     
@@ -318,10 +294,11 @@ def CreateTraffic():
         if (interval < 10):
             interval = 10
 
-        # lower the multiplier if you want bigger gaps between cars.
-        congestion = CongestionSlider.value() * 8
+        # lower the multiplier (7) if you want bigger gaps between cars or raise it for shorter.
+        congestion = CongestionSlider.value() * 7
 
-        congestionValue = 2200 - congestion
+        # lower the 2400 here to get shorter gaps or raise it to get larget gaps
+        congestionValue = 2400 - congestion
 
         # get the end time for this car
         carEndTime = currentTime + interval
@@ -385,7 +362,7 @@ def CreateTraffic():
         while (currentTime < endTime):
 
             if (randomOrder):
-                number = GetRandomNumber(len(cars), -1)
+                number = GetRandomNumber(len(cars), 0)
             else:
                 number = number + 1
 
@@ -393,6 +370,13 @@ def CreateTraffic():
                 if (number >= len(cars)):
                     # reset
                     number = 0
+
+            if (cars is not None):
+
+                if (number == len(cars)):
+
+                    # safeguard
+                    number = number - 1
 
             # safeguard
             if (number < 0):
@@ -670,6 +654,26 @@ def AttachWheels():
     # show a message
     text_edit.insertPlainText("Wheels attached: " + str(count) + ".\r\n")
 
+def HideCars():
+
+    # Get the cars
+    cars = GetCars()
+
+    # if there are one or more cars
+    if ((cars is not None) and (len(cars) > 0)):
+
+        # get all cars
+        for i in range(len(cars)):
+
+            # get a reference to this car
+            car = cars[i]
+
+             # show each car for this, make sure to hide them before Create Traffic
+            car.Prop.SetVisible(RLPy.RTime(0), False)
+
+            # show the cars hidden
+            text_edit.insertPlainText("Hide car: " + car.Name + "\r\n")
+
 def LoadProps():
 
     # convert the props
@@ -682,6 +686,7 @@ def LoadProps():
         RepositionButton.setEnabled(True)
         ResetPivotButton.setEnabled(True)
         AttachWheelsButton.setEnabled(True)
+        HideCarsButton.setEnabled(True)
 
         # Show a message
         text_edit.insertPlainText("Loaded " + str(len(props)) + " props.\r\n")
@@ -799,6 +804,11 @@ AttachWheelsButton = QtWidgets.QPushButton("Attach Wheels")
 AttachWheelsButton.clicked.connect(AttachWheels)
 AttachWheelsButton.setEnabled(False)
 
+# Hide Cars
+HideCarsButton = QtWidgets.QPushButton("Hide Cars")
+HideCarsButton.clicked.connect(HideCars)
+HideCarsButton.setEnabled(False)
+
 # Grab all props in the scene
 all_props = RLPy.RScene.FindObjects(RLPy.EObjectType_Prop)
 
@@ -808,7 +818,7 @@ Props = []
 # Margin Label
 marginLabel = QtWidgets.QLabel("")
 
-for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton, RepositionButton, ResetPivotButton, AttachWheelsButton]:
+for widget in [progress_bar, text_edit, SpeedSliderLabel, SpeedSlider, CongestionSliderLabel, CongestionSlider, RandomOrderCheckBox, OneWayCheckBox, marginLabel, CreateTrafficButton, RepositionButton, ResetPivotButton, AttachWheelsButton, HideCarsButton]:
     main_widget_layout.addWidget(widget)
 
 dockable_window.Show()
