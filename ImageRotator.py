@@ -31,7 +31,7 @@ def ApplyImages():
     # minus one.
 
     # get the range value
-    interval = IntervalSlider.value() * 15
+    interval = (IntervalSlider.value() * 20) + 100
 
     print ("interval" + str(interval))
 
@@ -169,6 +169,9 @@ def ApplyImages():
         else:
             # testing how far it gets
             print ("Current Time: " + str(currentTime))
+
+        # increment
+        loops = loops + 1
             
         if (loops < 100):
             progress_bar.setValue(loops)
@@ -205,14 +208,16 @@ progress_bar = QtWidgets.QProgressBar()
 
 text_edit = QtWidgets.QTextEdit(readOnly=True)
 
-# Interval
-IntervalSliderLabel = QtWidgets.QLabel("Interval Seconds (.1 - 30)")
-IntervalSlider = QtWidgets.QSlider(orientation=Qt.Horizontal)
+
 
 directoryChooser = QtWidgets.QFileDialog();
 directoryChooser.FileMode = QtWidgets.QFileDialog.Directory
 directoryChooser.Options = QtWidgets.QFileDialog.ShowDirsOnly
 directoryChooser.setWindowTitle('Select folder containing your images')
+
+# Interval
+IntervalSliderLabel = QtWidgets.QLabel("Interval Seconds (.1 - 30)")
+IntervalSlider = QtWidgets.QSlider(orientation=Qt.Horizontal)
 
 # .1 To 30 Seconds
 IntervalSlider.setRange(1, 300)
@@ -220,7 +225,7 @@ IntervalSlider.setRange(1, 300)
 IntervalSlider.setSingleStep(1)
 
 # Default to 5 Seconds
-IntervalSlider.setValue(30)
+IntervalSlider.setValue(50)
 
 # checkbox and slider for Glow Channel Strength
 addTextToGlowChannelCheckBox = QtWidgets.QCheckBox("Add Texture To Glow Channel")
