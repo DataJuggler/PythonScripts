@@ -91,7 +91,9 @@ for obj in bpy.context.selected_objects:
 bpy.context.object.data.use_auto_smooth = True
 bpy.ops.object.shade_smooth(use_auto_smooth=True)
 
-
+# add and apply triangulate (needed for exporting to USD)
+bpy.ops.object.modifier_add(type='TRIANGULATE')
+bpy.ops.object.modifier_apply(modifier="Triangulate")
 
 
 
