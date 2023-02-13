@@ -81,11 +81,12 @@ for obj in bpy.data.collections['Collection'].all_objects:
 # join
 bpy.ops.object.join()
 
+# move up on z axis to be off the ground
+bpy.context.object.location[2] = 2
 
 for obj in bpy.context.selected_objects:
     obj.name = "Heart"
     
-
 # now smooth it out
 bpy.context.object.data.use_auto_smooth = True
 bpy.ops.object.shade_smooth(use_auto_smooth=True)
