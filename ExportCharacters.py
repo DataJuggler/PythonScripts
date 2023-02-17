@@ -54,17 +54,25 @@ def ExportCharacter(character, y):
     bpy.ops.wm.usd_export(filepath=path, start=1, end=250, selected_objects_only=True, init_scene_frame_range=False)
 
 
+
 # text to write
 chars = "CODE COPY"
 
-y = -4
+y = -3.6
 
 for char in chars:
     
-    y = y + 1
+    y = y + .75
             
-    # export each char
-    ExportCharacter(char, y)
+    if not char.isspace():
+
+        # export each char
+        ExportCharacter(char, y)
+    
+    else:
+        
+        # go back a little
+        y = y -.5
 
 
 
