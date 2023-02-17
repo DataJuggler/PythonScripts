@@ -1,3 +1,10 @@
+# This file is used to export text one character at a time from Blender
+# To use it, you must change:
+# 1. Line 53 - The folder path to path=[drive]:\\YourFolder\\YourSubFolder (don't forget Python uses double backslash \\ for direcrtory separator)
+#    example: D:\\3D\\BlenderCharacters
+# 2. Line 58 - The text to create to chars = "YOUR TEXT"
+# 3. Line 20 - Change the font path to a path you have (It is on my to do list to learn how to build Add On GUI's)
+
 import bpy
 
 def ExportCharacter(character, y):
@@ -6,7 +13,14 @@ def ExportCharacter(character, y):
     bpy.ops.object.text_add(location=(0, y, 0))    
 
     # change the font if you don't have this font
-    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
+    # On Windows, your fonts are located in c:\Windows\Fonts, make sure you have the font used
+    # Also do not forget that the font path must use double backslash \\ for each directory
+    
+    # Font I Use In The Video
+    # bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
+    
+    # Font Verdana - Every Windows Machine Should Have This
+    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Verdana.TTF", relative_path=True)
             
     # go into edit mode and delete existing characters TEXT
     bpy.ops.object.editmode_toggle()
@@ -36,7 +50,7 @@ def ExportCharacter(character, y):
     bpy.ops.object.modifier_add(type='TRIANGULATE')
 
     # export change the path to save to
-    path = "D:\\3D\\Codopy\\" + name + ".usdc"
+    path = "C:\\Temp" + name + ".usdc"
     bpy.ops.wm.usd_export(filepath=path, start=1, end=250, selected_objects_only=True, init_scene_frame_range=False)
 
 
