@@ -1,3 +1,5 @@
+# This script creates 3D Text Numbers 1 - 100 in Blender.
+
 import bpy
 
 
