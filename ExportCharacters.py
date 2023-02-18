@@ -76,4 +76,4 @@ for char in chars:
         
 # Export a string (uncomment this section to write a string by removing the # and space after)
 # characters = ".com"
-# ExportCharacters(characters, ".com")
+# ExportCharacters(characters, "DotCom")
