@@ -53,7 +53,7 @@ def ExportCharacter(character, y):
     bpy.ops.object.modifier_add(type='TRIANGULATE')
 
     # export change the path to save to
-    path = "C:\\Temp" + name + ".usdc"
+    path = "C:\\Temp\\" + name + ".usdc"
     bpy.ops.wm.usd_export(filepath=path, start=1, end=250, selected_objects_only=True, init_scene_frame_range=False)
 
 # text to write
