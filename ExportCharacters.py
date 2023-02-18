@@ -45,6 +45,9 @@ def ExportCharacter(character, y):
     # rotate 
     bpy.context.object.rotation_euler[0] = 1.5708
     bpy.context.object.rotation_euler[2] = 1.5708
+    
+    # convert to mesh
+    bpy.ops.object.convert(target='MESH')
 
     # helps with export
     bpy.ops.object.modifier_add(type='TRIANGULATE')
@@ -52,8 +55,6 @@ def ExportCharacter(character, y):
     # export change the path to save to
     path = "C:\\Temp" + name + ".usdc"
     bpy.ops.wm.usd_export(filepath=path, start=1, end=250, selected_objects_only=True, init_scene_frame_range=False)
-
-
 
 # text to write
 chars = "CODE COPY"
@@ -72,7 +73,7 @@ for char in chars:
     else:
         
         # go back a little
-        y = y -.5
+        y = y -.6
 
 
 
