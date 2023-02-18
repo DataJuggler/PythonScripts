@@ -1,9 +1,9 @@
 # This file is used to export text one character at a time from Blender
 # To use it, you must change:
-# 1. Line 53 - The folder path to path=[drive]:\\YourFolder\\YourSubFolder (don't forget Python uses double backslash \\ for direcrtory separator)
+# 1. Line 56 - The folder path to path=[drive]:\\YourFolder\\YourSubFolder (don't forget Python uses double backslash \\ for direcrtory separator)
 #    example: D:\\3D\\BlenderCharacters
 # 2. Line 58 - The text to create to chars = "YOUR TEXT"
-# 3. Line 20 - Change the font path to a path you have (It is on my to do list to learn how to build Add On GUI's)
+# 3. Line 60 - Change the font path to a path you have (It is on my to do list to learn how to build Add On GUI's)
 
 import bpy
 
