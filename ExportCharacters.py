@@ -1,16 +1,16 @@
 # This file is used to export text one character at a time from Blender
 # To use it, you must change:
-# 1. Line 56 - The folder path to path=[drive]:\\YourFolder\\YourSubFolder (don't forget Python uses double backslash \\ for direcrtory separator)
+# 1. Line 55 - The folder path to path=[drive]:\\YourFolder\\YourSubFolder (don't forget Python uses double backslash \\ for direcrtory separator)
 #    example: D:\\3D\\BlenderCharacters
-# 2. Line 58 - The text to create to chars = "YOUR TEXT"
+# 2. Line 58 - The text to export each character to its own file. Set chars = "YOUR TEXT"
 # 3. Line 23 - Change the font path to a path you have (It is on my to do list to learn how to build Add On GUI's)
 
 import bpy
 
-def ExportCharacter(character, y):
+def ExportCharacters(characters, name):
 
     # Add a TextObject
-    bpy.ops.object.text_add(location=(0, y, 0))    
+    bpy.ops.object.text_add(location=(0, 0, 0))    
 
     # change the font if you don't have this font
     # On Windows, your fonts are located in c:\Windows\Fonts, make sure you have the font used
@@ -29,8 +29,8 @@ def ExportCharacter(character, y):
     bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
     bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
 
-    char = character
-    bpy.ops.font.text_insert(text=char)   
+    for char in characters:
+        bpy.ops.font.text_insert(text=char)   
                 
     # exit edit mode            
     bpy.ops.object.editmode_toggle()
@@ -38,8 +38,7 @@ def ExportCharacter(character, y):
     # set extrude
     bpy.context.object.data.extrude = 0.06
 
-    # set the name of this character
-    name = "Letter" + character
+    # set the name of this character    
     bpy.context.object.name = name
 
     # rotate 
@@ -57,24 +56,24 @@ def ExportCharacter(character, y):
     bpy.ops.wm.usd_export(filepath=path, start=1, end=250, selected_objects_only=True, init_scene_frame_range=False)
 
 # text to write
-chars = "CODE COPY"
+chars = "TextToWrite"
 
-y = -3.6
+# To Export 1 Character at a time
 
 for char in chars:
-    
-    y = y + .75
             
     if not char.isspace():
-
-        # export each char
-        ExportCharacter(char, y)
-    
-    else:
         
-        # go back a little
-        y = y -.6
+        if char.isupper():
 
-
-
-    
+            # export each char
+            name = "LetterUppercase" + char
+        else:
+            
+            name = "LetterLowercase" + char
+        
+        ExportCharacters(char, name)
+        
+# Export a string (uncomment this section to write a string by removing the # and space after)
+# characters = ".com"
+# ExportCharacters(characters, ".com")
