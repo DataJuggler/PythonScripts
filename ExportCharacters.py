@@ -17,10 +17,10 @@ def ExportCharacters(characters, name):
     # Also do not forget that the font path must use double backslash \\ for each directory
     
     # Font I Use In The Video
-    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
+    # bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
     
     # Font Verdana - Every Windows Machine Should Have This
-    # bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Verdana.TTF", relative_path=True)
+    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Verdana.TTF", relative_path=True)
             
     # go into edit mode and delete existing characters TEXT
     bpy.ops.object.editmode_toggle()
