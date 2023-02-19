@@ -17,10 +17,10 @@ def ExportCharacters(characters, name):
     # Also do not forget that the font path must use double backslash \\ for each directory
     
     # Font I Use In The Video
-    # bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
+    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Palatino Linotype.TTF", relative_path=True)
     
     # Font Verdana - Every Windows Machine Should Have This
-    bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Verdana.TTF", relative_path=True)
+    # bpy.ops.font.open(filepath="C:\\Windows\\Fonts\\Verdana.TTF", relative_path=True)
             
     # go into edit mode and delete existing characters TEXT
     bpy.ops.object.editmode_toggle()
@@ -59,21 +59,45 @@ def ExportCharacters(characters, name):
 chars = "TextToWrite"
 
 # To Export 1 Character at a time
+writeChars = True
 
-for char in chars:
-            
-    if not char.isspace():
-        
-        if char.isupper():
+if writeChars:
 
-            # export each char
-            name = "LetterUppercase" + char
-        else:
+    for char in chars:
+                
+        if not char.isspace():
             
-            name = "LetterLowercase" + char
+            if char.isupper():
+
+                # Set name to include Uppercase
+                name = "LetterUppercase" + char
+                
+            else:
+                
+                # Set name to include lowercase
+                name = "LetterLowercase" + char
+            
+            ExportCharacters(char, name)
         
-        ExportCharacters(char, name)
-        
-# Export a string (uncomment this section to write a string by removing the # and space after)
-# characters = ".com"
-# ExportCharacters(characters, "DotCom")
+# Export strings - Set writeStrings = True to write any strings
+# In the following exammple, I am exporting 5 strings, so I can use the Blast extension in Omniverse Create
+# To Turn CODECOPY.com into CODOPY.com by blowing up the E and C characters
+
+writeStrings = False
+
+if writeStrings:
+
+    characters = "COD"
+    ExportCharacters(characters, "COD")
+
+    characters = "E"
+    ExportCharacters(characters, "E")
+    
+    characters = "C"
+    ExportCharacters(characters, "C")
+
+    characters = "OPY"
+    ExportCharacters(characters, "OPY")
+
+    characters = ".com"
+    ExportCharacters(characters, "DotCom")
